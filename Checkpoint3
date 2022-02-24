@@ -1,5 +1,7 @@
 public class Checkpoint3 {
 
+    public Map<String, Integer>();
+
     public static void main (String args[]){
             
     }
