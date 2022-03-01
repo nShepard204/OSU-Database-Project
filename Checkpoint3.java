@@ -1,39 +1,12 @@
-// Imports
-import java.util.*;
+import java.util.Scanner;
 
 public class Checkpoint3 {
-
-    // Add new records - Returns 
-    public int addRecord(){
-        int retVal = 0;
-
-        return retVal;
-    }
-
-    // Edit records
-    public void editRecord(){
-
-    }
-
-    // Search records
-    // Return time will be changed to whatever data structure we decide to use.
-    public void lookupRecord(){
-
-    }
-
-    // Order items
-    public int placeOrder(){
-        int retVal = 0;
-
-        return retVal;
-    }
-
-    // Useful reports
 
     public static void main (String args[]){
         // Variable Initialization & Declaration.
         boolean inUse = true;
         Scanner input = new Scanner(System.in);
+        Library library = new Library();
 
         // While the program is in use, accept and run commands.
         System.out.println("Welcome to Team 11's Database System!");
@@ -50,19 +23,38 @@ public class Checkpoint3 {
                     break;
                 case 1:
                     // Add a record
-                    System.out.println("\nAdding Record...");
+                    int id = library.addRecord(input);
+                    System.out.println("\nRecord Added! ID: " + id);
                     break;
                 case 2:
                     // Edit an existing record
+                    id = 0;
+                    System.out.println("\nInput the ID of the record you want to edit: ");
+                    id = input.nextInt();
+                    library.editRecord(id, input);
                     System.out.println("\nEditing Record...");
+                    System.out.println("\nRecord " + id + " has been edited.");
+                    
                     break;
                 case 3:
                     // Search for a record
+                    System.out.println("\nEnter the Name of the Record: ");
+                    String search = input.nextLine();
                     System.out.println("\nSearching for Record...");
+                    int res = library.lookupRecord(search);
+                    if(res > 0){
+                        System.out.println("Record found! ID: " + res);
+                    }else{
+                        System.out.println("Record not found.");
+                    }
                     break;
                 case 4:
                     // Order items
-                    System.out.println("\nPlace Order...");
+                    id = 0;
+                    System.out.println("\nInput the ID of the record you want to order: ");
+                    id = input.nextInt();
+                    System.out.println("\nPlacing Order...");
+                    library.placeOrder(id);
                     break;
                 default:
                     System.out.println("\nInvalid Input Received. Please Try Again!");
@@ -71,4 +63,5 @@ public class Checkpoint3 {
         }
         input.close();
     }
+    
 }
