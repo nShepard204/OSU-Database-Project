@@ -63,6 +63,7 @@ public class AppGUI {
             // Display song title, the album its on, and the name of the artist.
         }
     }
+    
     public static void main(String[] args){
 
         // Search Button.
