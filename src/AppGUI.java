@@ -13,7 +13,6 @@ public class AppGUI {
 
     // Handles the searching.
     private static void searchWindow(){
-        JPanel p = new JPanel(new GridLayout(0, 1));
         String selectionStr = "";
         // Set the search selection dropdown.
         String[] options = {"Artists", "Actors", "Authors", "Albums", "Books", "Movies", "Songs"};
@@ -62,6 +61,66 @@ public class AppGUI {
 
             // Display song title, the album its on, and the name of the artist.
         }
+    }
+
+    private static void addWindow(){
+        String selectionStr = "";
+        // Set the search selection dropdown.
+        String[] options = {"Artist", "Actor", "Author", "Album", "Book", "Movie", "Song"};
+        JComboBox<String> addSelect = new JComboBox<>(options);
+
+        String message = "Select Type of Record to Add";
+        int result = JOptionPane.showOptionDialog(f, new Object[] {message, addSelect}, "Add Records", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        if(result == JOptionPane.OK_OPTION){
+            selectionStr = String.valueOf(addSelect.getSelectedItem());
+        }
+
+        // Adjust the next input form based on selectionStr's value.
+        if(selectionStr.equals(options[0])){ // Add Artist.
+            //message = "Search for albums & songs by Artist Name.";
+            //String artistName = JOptionPane.showInputDialog(null, message);
+
+            // INSERT INTO Artist VALUES (name)
+        } else if(selectionStr.equals(options[1])){ // Add Actor.
+
+            // INSERT INTO Actor VALUES (name)
+
+        } else if(selectionStr.equals(options[2])){ // Add Author.
+
+            // INSERT INTO Author VALUES (name)
+            
+        } else if(selectionStr.equals(options[3])){ // Add Album.
+
+            // INSERT INTO Album VALUES (title, release_year, genre, artist_id, track_count, physical, digital)
+            
+        } else if(selectionStr.equals(options[4])){ // Add Book.
+
+            // INSERT INTO Book VALUES (title, author_id, genre, physical, digital)
+
+        } else if(selectionStr.equals(options[5])){ // Add Movie.
+
+            // Insert into Movie values (title, genre, length, director, actor, physical, digital)
+
+        } else if(selectionStr.equals(options[6])){ // Add Song.
+            // Insert into Song values (album_id, title)
+        }
+    }
+
+    /**
+     * General idea: ask the user for the id of record they want to edit and the table, give them a selection of what they want to edit and let it rock
+     */
+    private static void editWindow(){
+
+    }
+
+    // Give them a selection of reports to run, and just execute the statements. No muss, no fuss.
+    private static void reportsWindow(){
+
+    }
+
+    // This should behave more or less like add except with some differences.
+    private static void orderWindow(){
+
     }
     
     public static void main(String[] args){
