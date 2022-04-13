@@ -13,6 +13,18 @@ public class AppGUI {
     // Dimension Variables.
     private static final int buttonWidth = 200, buttonHeight = 30, guiWidth = 400, guiHeight = 400, buttonYPos = 40, buttonXPos = 95;
 
+    private static JButton makeQuitButton(JFrame parent){
+        JButton quitButton = new JButton("Cancel");
+        quitButton.addActionListener(e -> {
+            parent.dispose();
+        });
+        return quitButton;
+    }
+
+    private static void wipMessage(){
+        JOptionPane.showMessageDialog(null, "This is WIP! Please try again later.", "Feature Not Implemented", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     // Handles the searching.
     private static void searchWindow(){
         String selectionStr = "";
@@ -174,7 +186,103 @@ public class AppGUI {
 
     // Give them a selection of reports to run, and just execute the statements. No muss, no fuss.
     private static void reportsWindow(){
+        JFrame reports = new JFrame();
+        JPanel content = new JPanel(new SpringLayout());
+        int numReports = 5;
 
+        // Report #1: Tracks by ARTIST released before YEAR.
+        // Use this as the skeleton for the test of the buttons.
+        JButton reportOne = new JButton("Tracks by ARTIST released before YEAR");
+        reportOne.addActionListener(e -> {
+            reports.setVisible(false);
+            JFrame rOneFrame = new JFrame("Tracks by ARTIST released before YEAR");
+            JPanel rOnePanel = new JPanel(new SpringLayout());
+            // Make the labels.
+            JLabel artistLabel = new JLabel("Enter Artist Name:", JLabel.TRAILING);
+            JLabel yearLabel = new JLabel("Enter Cutoff Year:", JLabel.TRAILING);
+            // Make the fields.
+            JTextField artistField = new JTextField();
+            JTextField yearField = new JTextField();
+            // Assign fields to the labels.
+            artistLabel.setLabelFor(artistField);
+            yearLabel.setLabelFor(yearField);
+            // Make the confirmation buttons.
+            JButton runButton = new JButton("Run Report");
+            JButton quitButton = makeQuitButton(reports);
+            // Set the run button to execute an SQL query.
+            runButton.addActionListener(event -> {
+                // SQL shit does here.
+                JFrame tableFrame = new JFrame();
+                tableFrame.setTitle("Report: Tracks by ARTIST released before YEAR");
+                String[][] data = {
+                    {"Burnout", "Dookie", "269", "1994"}
+                };
+                String[] colNames = {"Song Title", "Album", "Length", "Release Year"};
+                JTable table = new JTable(data, colNames);
+                table.setBounds(30, 40, 200, 300);
+                // Set scroll pane.
+                JScrollPane sp = new JScrollPane(table);
+                tableFrame.add(sp);
+                // Set the frame and render the table.
+                tableFrame.setSize(500, 200);
+                tableFrame.setVisible(true);
+                tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            });
+            // Add everything to the panel.
+            rOnePanel.add(artistLabel);
+            rOnePanel.add(artistField);
+            rOnePanel.add(yearLabel);
+            rOnePanel.add(yearField);
+            rOnePanel.add(runButton);
+            rOnePanel.add(quitButton);
+
+            // Set the shit up and display the data.
+            SpringUtilities.makeCompactGrid(rOnePanel, 3, 2, 5, 5, 5, 5);
+            rOneFrame.setContentPane(rOnePanel);
+            rOneFrame.pack();
+            rOneFrame.setVisible(true);
+        });
+        reportOne.setBounds(buttonXPos, buttonYPos, buttonWidth, buttonHeight);
+        reports.add(reportOne);
+
+        // Report #2: Number of albums checked out by a single patron.
+        JButton reportTwo = new JButton("Number of albums checked out by a single patron.");
+        reportTwo.addActionListener(e -> {
+            wipMessage();
+        });
+        reportTwo.setBounds(buttonXPos, buttonYPos + (buttonHeight * 2), buttonWidth, buttonHeight);
+        reports.add(reportTwo);
+        // Report #3: Most popular actor in the database.
+        JButton reportThree = new JButton("Most popular actor in the database.");
+        reportThree.addActionListener(e -> {
+            wipMessage();
+        });
+        reportThree.setBounds(buttonXPos, buttonYPos + (buttonHeight * 4), buttonWidth, buttonHeight);
+        reports.add(reportThree);
+        // Report #4: Most listened to artist in the database.
+        JButton reportFour = new JButton("Most listened to artist in the database.");
+        reportFour.addActionListener(e -> {
+            wipMessage();
+        });
+        reportFour.setBounds(buttonXPos, buttonYPos + (buttonHeight * 6), buttonWidth, buttonHeight);
+        reports.add(reportFour);
+        // Report #5: Patron who has checked out the most videos.
+        JButton reportFive = new JButton("Patron who has checked out the most videos.");
+        reportFive.addActionListener(e -> {
+            wipMessage();
+        });
+        reportFive.setBounds(buttonXPos, buttonYPos + (buttonHeight *8), buttonWidth, buttonHeight);
+        reports.add(reportFive);
+
+
+        // Final Operations.
+        reports.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        reports.setSize(guiHeight, guiWidth);
+        reports.setLayout(null);
+        reports.setResizable(false);
+        reports.setLocationRelativeTo(f);
+        reports.setTitle("Generate Reports");
+        reports.setVisible(true);
     }
 
     // This should behave more or less like add except with some differences.
@@ -210,6 +318,7 @@ public class AppGUI {
         JButton reportsButton = new JButton("Generate Reports");
         reportsButton.setBounds(buttonXPos, buttonYPos + (buttonHeight * 8), buttonWidth, buttonHeight);
         f.add(reportsButton);
+        reportsButton.addActionListener(e -> reportsWindow());
 
         // Render the app gui.
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
