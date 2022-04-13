@@ -8,24 +8,22 @@ import java.awt.event.*;
 
 public class AppGUI {
     private static JFrame f = new JFrame();
+    private static String[] tableOptions = {"Artists", "Actors", "Authors", "Albums", "Books", "Movies", "Songs"};
+    private static JComboBox<String> selector = new JComboBox<>(tableOptions);
     // Dimension Variables.
     private static final int buttonWidth = 200, buttonHeight = 30, guiWidth = 400, guiHeight = 400, buttonYPos = 40, buttonXPos = 95;
 
     // Handles the searching.
     private static void searchWindow(){
         String selectionStr = "";
-        // Set the search selection dropdown.
-        String[] options = {"Artists", "Actors", "Authors", "Albums", "Books", "Movies", "Songs"};
-        JComboBox<String> searchSelect = new JComboBox<>(options);
-
         String message = "Select records to search for.";
-        int result = JOptionPane.showOptionDialog(f, new Object[] {message, searchSelect}, "Search Records", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        int result = JOptionPane.showOptionDialog(f, new Object[] {message, selector}, "Search Records", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
         if(result == JOptionPane.OK_OPTION){
-            selectionStr = String.valueOf(searchSelect.getSelectedItem());
+            selectionStr = String.valueOf(selector.getSelectedItem());
         }
 
         // Adjust the next input form based on selectionStr's value.
-        if(selectionStr.equals(options[0])){
+        if(selectionStr.equals(tableOptions[0])){
             message = "Search for albums & songs by Artist Name.";
             String artistName = JOptionPane.showInputDialog(null, message);
 
@@ -33,30 +31,30 @@ public class AppGUI {
             // SELECT title, number, duration FROM Song WHERE album_id IN *The list of record IDs we get from the 1st query.*
 
             // Display the info in two tables, one for albums, one for songs.
-        } else if(selectionStr.equals(options[1])){
+        } else if(selectionStr.equals(tableOptions[1])){
             message = "Search for movies starring this actor.";
             String actorName = JOptionPane.showInputDialog(null, message);
             // Query & display all movies the actor was in.
-        } else if(selectionStr.equals(options[2])){
+        } else if(selectionStr.equals(tableOptions[2])){
             message = "Search for books written by this author.";
             String authorName = JOptionPane.showInputDialog(null, message);
             // Query & display all books written by the entered author.
-        } else if(selectionStr.equals(options[3])){
+        } else if(selectionStr.equals(tableOptions[3])){
             // Need to search for albums by: name, genre, possibly duration.
 
             // if genre; display all albums matching the genre.
             // if name; get the id of the album and display all songs that have that album ID.
-        } else if(selectionStr.equals(options[4])){
+        } else if(selectionStr.equals(tableOptions[4])){
             // Need to search for albums by: name, genre, possibly duration.
 
             // if genre; display all books matching the genre.
             // if name; return the books name and format info.
-        } else if(selectionStr.equals(options[5])){ // Movies.
+        } else if(selectionStr.equals(tableOptions[5])){ // Movies.
             // Search by name, genre, length, director
 
             // Display all the above info + format info.
 
-        } else if(selectionStr.equals(options[6])){ // Songs.
+        } else if(selectionStr.equals(tableOptions[6])){ // Songs.
             // Search by title.
 
             // Display song title, the album its on, and the name of the artist.
@@ -66,42 +64,42 @@ public class AppGUI {
     private static void addWindow(){
         String selectionStr = "";
         // Set the search selection dropdown.
-        String[] options = {"Artist", "Actor", "Author", "Album", "Book", "Movie", "Song"};
-        JComboBox<String> addSelect = new JComboBox<>(options);
+        String[] tableOptions = {"Artist", "Actor", "Author", "Album", "Book", "Movie", "Song"};
+        JComboBox<String> selector = new JComboBox<>(tableOptions);
 
         String message = "Select Type of Record to Add";
-        int result = JOptionPane.showOptionDialog(f, new Object[] {message, addSelect}, "Add Records", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        int result = JOptionPane.showOptionDialog(f, new Object[] {message, selector}, "Add Records", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
         if(result == JOptionPane.OK_OPTION){
-            selectionStr = String.valueOf(addSelect.getSelectedItem());
+            selectionStr = String.valueOf(selector.getSelectedItem());
         }
 
         // Adjust the next input form based on selectionStr's value.
-        if(selectionStr.equals(options[0])){ // Add Artist.
+        if(selectionStr.equals(tableOptions[0])){ // Add Artist.
             //message = "Search for albums & songs by Artist Name.";
             //String artistName = JOptionPane.showInputDialog(null, message);
 
             // INSERT INTO Artist VALUES (name)
-        } else if(selectionStr.equals(options[1])){ // Add Actor.
+        } else if(selectionStr.equals(tableOptions[1])){ // Add Actor.
 
             // INSERT INTO Actor VALUES (name)
 
-        } else if(selectionStr.equals(options[2])){ // Add Author.
+        } else if(selectionStr.equals(tableOptions[2])){ // Add Author.
 
             // INSERT INTO Author VALUES (name)
             
-        } else if(selectionStr.equals(options[3])){ // Add Album.
+        } else if(selectionStr.equals(tableOptions[3])){ // Add Album.
 
             // INSERT INTO Album VALUES (title, release_year, genre, artist_id, track_count, physical, digital)
             
-        } else if(selectionStr.equals(options[4])){ // Add Book.
+        } else if(selectionStr.equals(tableOptions[4])){ // Add Book.
 
             // INSERT INTO Book VALUES (title, author_id, genre, physical, digital)
 
-        } else if(selectionStr.equals(options[5])){ // Add Movie.
+        } else if(selectionStr.equals(tableOptions[5])){ // Add Movie.
 
             // Insert into Movie values (title, genre, length, director, actor, physical, digital)
 
-        } else if(selectionStr.equals(options[6])){ // Add Song.
+        } else if(selectionStr.equals(tableOptions[6])){ // Add Song.
             // Insert into Song values (album_id, title)
         }
     }
@@ -110,7 +108,68 @@ public class AppGUI {
      * General idea: ask the user for the id of record they want to edit and the table, give them a selection of what they want to edit and let it rock
      */
     private static void editWindow(){
+        int numComponents = 0;
+        JFrame edit = new JFrame();
+        JPanel p = new JPanel(new SpringLayout());
+        // id field.
+        JLabel idLabel = new JLabel("Enter Record ID:", JLabel.TRAILING);
+        JTextField idField = new JTextField(10);
+        idLabel.setLabelFor(idField);
+        p.add(idLabel);
+        p.add(idField);
+        numComponents += 1;
 
+        // Table Selector.
+        JLabel selectLabel = new JLabel("Select Record Type:", JLabel.TRAILING);
+        selectLabel.setLabelFor(selector);
+        p.add(selectLabel);
+        p.add(selector);
+        numComponents += 1;
+
+        // Click a button = Query the database for that record. Close and relaunch. Include quit button.
+        JButton queryButton = new JButton("Find Record");
+        p.add(queryButton);
+        queryButton.addActionListener(e -> {
+            edit.setVisible(false);
+            JFrame tempF = new JFrame();
+            JPanel temp = new JPanel(new SpringLayout());
+            // Most of the SQL goes here.
+            int numAttrs = 2;
+            String[] attrNames = {"id", "name"};
+            String[] attrVals = {"1", "Foo Bar"};
+            for(int i = 0; i < numAttrs; i++){
+                JLabel attrName = new JLabel(attrNames[i], JLabel.TRAILING);
+                JTextArea attrVal = new JTextArea(attrVals[i]);
+                temp.add(attrName);
+                temp.add(attrVal);
+            }
+            SpringUtilities.makeCompactGrid(temp, numAttrs, 2, 5, 5, 5, 5);
+            tempF.setContentPane(temp);
+            tempF.pack();
+            tempF.setVisible(true);
+        });
+        JButton quitButton = new JButton("Cancel");
+        p.add(quitButton);
+        quitButton.addActionListener(e -> {
+            edit.dispose();
+        });
+        numComponents += 1;
+
+        // Render a series of JTextFields that have their pre-filled in values be the current values of the database.
+
+        // Save button = update query.
+
+
+        // Cleanup to render
+        SpringUtilities.makeCompactGrid(p, numComponents, 2, 5, 5, 5, 5);
+        edit.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        edit.setSize(guiWidth, guiHeight);
+        edit.setResizable(false);
+        edit.setLocationRelativeTo(null);
+        edit.setTitle("Edit Screen");
+        edit.setContentPane(p);
+        edit.pack();
+        edit.setVisible(true);
     }
 
     // Give them a selection of reports to run, and just execute the statements. No muss, no fuss.
@@ -140,6 +199,7 @@ public class AppGUI {
         JButton editButton = new JButton("Edit Records");
         editButton.setBounds(buttonXPos, buttonYPos + (buttonHeight * 4), buttonWidth, buttonHeight);
         f.add(editButton);
+        editButton.addActionListener(e -> editWindow());
 
         // Order Button.
         JButton orderButton = new JButton("Order Media");
