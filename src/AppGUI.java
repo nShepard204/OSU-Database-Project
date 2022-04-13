@@ -187,8 +187,6 @@ public class AppGUI {
     // Give them a selection of reports to run, and just execute the statements. No muss, no fuss.
     private static void reportsWindow(){
         JFrame reports = new JFrame();
-        JPanel content = new JPanel(new SpringLayout());
-        int numReports = 5;
 
         // Report #1: Tracks by ARTIST released before YEAR.
         // Use this as the skeleton for the test of the buttons.
