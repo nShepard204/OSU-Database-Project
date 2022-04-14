@@ -10,7 +10,6 @@ import java.awt.event.*;
 
 public class MainGUI extends JFrame implements ActionListener{
     // Class Variables.
-    private String[] buttonStrings = {"Add Records"};
     
     private void createButton(JPanel mainPane, String buttonTxt){
         JButton button = new JButton(buttonTxt);
@@ -36,15 +35,35 @@ public class MainGUI extends JFrame implements ActionListener{
         // Display the main gui.
         mainFrame.setContentPane(mainPane);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.setLocationRelativeTo(null);
         mainFrame.setResizable(false);
         mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        String button = ((JButton)e.getSource()).getText();
-        System.out.println(button);
+        String buttonTxt = ((JButton)e.getSource()).getText();
+        switch(buttonTxt){
+            case "Add Records":
+                new AddGUI();
+                break;
+            case "Edit Records":
+                // new EditGUI();
+                break;
+            case "Search Database":
+                // new SearchGUI();
+                break;
+            case "Manage Orders":
+                // new OrderGUI();
+                break;
+            case "Generate Reports":
+                // new ReportGUI();
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, "An error occurred. Please try again later.", "Error!", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+        
     }
 }
