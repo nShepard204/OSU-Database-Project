@@ -5,26 +5,29 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class AddGUI extends JFrame implements ActionListener{
+public class EditGUI extends JFrame implements ActionListener{
     // Class Variables.
-    private JPanel addPanel = new JPanel(new SpringLayout());
+    private JPanel editPanel = new JPanel(new SpringLayout());
     private String[] tables = {"N/A", "Artist"};
     private JComboBox<String> tableSelect = new JComboBox<String>(this.tables);
     // Spring Utility Variables.
     private int numColumns = 2, initialX = 5, initialY = 5, xPad = 5, yPad = 5;
     private String current = "";
+    private int editId = 0;
     // Visual Components.
     private JButton quitButton = ShepGuiUtils.makeQuitButton(this);
-    private JButton submitButton = new JButton("Add To Database");
+    private JButton submitButton = new JButton("Query Record");
+    private JTextField idField = new JTextField();
 
     // Constructor.
-    public AddGUI(){
+    public EditGUI(){
         // Add selector logic to the layout.
         this.tableSelect.addActionListener(this);
         this.renderSelect();
         // Add cancel and execute buttons to the layout.
         this.submitButton.addActionListener(this);
         this.quitButton.addActionListener(this);
+        this.idField.addActionListener(this);
         this.renderButtons();
         // Prepare and render the GUI.
         this.renderGUI();
@@ -32,31 +35,38 @@ public class AddGUI extends JFrame implements ActionListener{
 
     // Helper Methods.
     private void renderGUI(){
-        int numRows = Math.max((this.addPanel.getComponentCount()/2), 2);
-        SpringUtilities.makeGrid(this.addPanel, numRows, this.numColumns, this.initialX, this.initialY, this.xPad, this.yPad);
+        int numRows = Math.max((this.editPanel.getComponentCount()/2), 2);
+        SpringUtilities.makeGrid(this.editPanel, numRows, this.numColumns, this.initialX, this.initialY, this.xPad, this.yPad);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setTitle("Add Records");
-        this.setContentPane(this.addPanel);
+        this.setTitle("Edit Records");
+        this.setContentPane(this.editPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
     private void renderSelect(){
-        JLabel selectLabel = new JLabel("Select Record Type to Add:", JLabel.TRAILING);
+        // Dropdown.
+        JLabel selectLabel = new JLabel("Select Table to Query:", JLabel.TRAILING);
         selectLabel.setLabelFor(this.tableSelect);
-        this.addPanel.add(selectLabel);
-        this.addPanel.add(tableSelect);
+        this.editPanel.add(selectLabel);
+        this.editPanel.add(tableSelect);
+
+        // ID to query.
+        JLabel idLabel = new JLabel("Enter ID to Edit:", JLabel.TRAILING);
+        idLabel.setLabelFor(idField);
+        this.editPanel.add(idLabel);
+        this.editPanel.add(idField);
     }
 
     private void renderButtons(){
-        this.addPanel.add(this.submitButton);
-        this.addPanel.add(this.quitButton);
+        this.editPanel.add(this.submitButton);
+        this.editPanel.add(this.quitButton);
     }
 
     private void renderArtistForm(){
         // Remove all components & add the selector back.
-        this.addPanel.removeAll();
+        this.editPanel.removeAll();
         this.renderSelect();
 
         // Add Input Fields.
@@ -65,8 +75,8 @@ public class AddGUI extends JFrame implements ActionListener{
         nameLabel.setLabelFor(nameField);
         // Set field name to column attribute in DB (will be important later).
         nameField.setName("name");
-        this.addPanel.add(nameLabel);
-        this.addPanel.add(nameField);
+        this.editPanel.add(nameLabel);
+        this.editPanel.add(nameField);
         // Add the buttons bac.
         this.renderButtons();
         // Re-render our panel.
@@ -74,7 +84,7 @@ public class AddGUI extends JFrame implements ActionListener{
     }
 
     private void executeSQL(){
-        Component[] formFields = this.addPanel.getComponents();
+        Component[] formFields = this.editPanel.getComponents();
         // Attribute, Value
         Map<String, String> userInput = new HashMap<String, String>();
         // For each text field in the form, grab the attribute name & its value.
@@ -90,24 +100,19 @@ public class AddGUI extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource().equals(this.submitButton)){
-            // SQL Logic Here. Perhaps its own method?
-            this.executeSQL();
+        // Update the id field.
+        if(e.getSource().equals(this.idField)){
+            this.editId = Integer.parseInt(this.idField.getText());
         }
-        // Form Rendering Logic.
-        else if (e.getSource().equals(this.tableSelect)) {
-            this.current = String.valueOf(this.tableSelect.getSelectedItem());
-            // Add Artist to DB
-            if(this.current.equals(this.tables[1])){ 
-                this.renderArtistForm();
-            }
-            // Render Base Form (haha). 
-            else {
-                this.addPanel.removeAll();
-                this.renderSelect();
-                this.renderButtons();
-                this.renderGUI();
-            } 
+
+        // Get the record if our input is good.
+        if(e.getSource().equals(this.submitButton) && this.editId != 0 && this.submitButton.getText() == "Query Record"){
+            
+        }
+
+        // Get the record if our input is good.
+        if(e.getSource().equals(this.submitButton) && this.editId != 0 && this.submitButton.getText() == "Update Record"){
+
         }
     }
 }

@@ -49,7 +49,7 @@ public class MainGUI extends JFrame implements ActionListener{
                 new AddGUI();
                 break;
             case "Edit Records":
-                // new EditGUI();
+                new EditGUI();
                 break;
             case "Search Database":
                 // new SearchGUI();
