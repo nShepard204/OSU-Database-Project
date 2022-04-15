@@ -52,10 +52,10 @@ public class MainGUI extends JFrame implements ActionListener{
                 new EditGUI();
                 break;
             case "Search Database":
-                // new SearchGUI();
+                new SearchGUI();
                 break;
             case "Manage Orders":
-                // new OrderGUI();
+                new OrderGUI();
                 break;
             case "Generate Reports":
                 // new ReportGUI();

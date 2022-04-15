@@ -13,4 +13,12 @@ public class ShepGuiUtils {
         });
         return quitButton;
     }
+
+    // Handles all the misc. bullshit for the frames.
+    public static void frameCleanup(JFrame f){
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.pack();
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }
 }
