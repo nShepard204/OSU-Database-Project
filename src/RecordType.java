@@ -1,6 +1,6 @@
 import java.sql.Connection;
 
-public abstract class MediaType {
+public abstract class RecordType {
 
     // public String name, genre, creator, type;
     // public int year_pub, length, chapters, songs;
@@ -9,7 +9,7 @@ public abstract class MediaType {
 
     //number is a number of chapters, songs or length in seconds of a song
     // this will depend on its type
-    public MediaType(){
+    public RecordType(){
         // this.name = name;
         // this.genre = genre;
         // this.creator = creator;
@@ -20,7 +20,8 @@ public abstract class MediaType {
         // this.songs = number;
 
     }
-    
-    public abstract void order(Connection conn);
 
+    public abstract void add(Connection conn);
+    public abstract void edit();
+    public abstract void delete();
  }

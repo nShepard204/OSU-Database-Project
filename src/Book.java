@@ -1,30 +1,27 @@
 import java.sql.*;
 
-public class Album extends RecordType{
+public class Book extends RecordType{
 
-    int id, year, artist_id, track_count, duration, backorder, count;
-    String title, genre, format;
+    int id, author_id, physical, digital, backorder;
+    String title, genre;
 
-    public Album(int id, String title, String genre, int year, int track_count,
-    int duration, int backorder, int album_count, int artist_id, String format){
+    public Book(int id, String title, String genre, int backorder, int album_count, 
+    int author_id, int physical, int digital){
         this.id = id;
         this.title = title;
         this.genre = genre;
-        this.year = year;
-        this.track_count = track_count;
-        this.duration = duration;
+        this.physical = physical;
+        this.digital = digital;
         this.backorder = backorder;
-        this.count = album_count;
-        this.artist_id = artist_id;
-        this.format = format;
+        this.author_id = author_id;
     }
 
     @Override
     public void add(Connection conn) {
         
-        String insertStr = "INSERT INTO Album VALUES " +
-        "(" + id + ", " + title + ", " + year + ", " + genre + ", " + artist_id + ", " + track_count + 
-        duration + ", " + backorder + ", " + format + ", " + count + ");";
+        String insertStr = "INSERT INTO Book VALUES " +
+        "(" + id + ", " + author_id + ", " + title + ", " + genre + ", " + physical + ", " + 
+        digital + ", " + backorder + ");";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
@@ -54,7 +51,5 @@ public class Album extends RecordType{
         // TODO Auto-generated method stub
         
     }
-
-    
     
 }

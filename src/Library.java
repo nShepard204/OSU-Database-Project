@@ -15,8 +15,8 @@ public class Library{
 
     // Add new records - Returns id of new record
     public int addRecord(String selectionStr){
-        //
-        MediaType newRec = new MediaType("", "", "", "", 0, 0);
+        //Input data
+        /* MediaType newRec = new MediaType("", "", "", "", 0, 0);
         System.out.println("\nInput the name of the Record");
         newRec.name = input.nextLine();
         System.out.println("\nInput the type of the Record");
@@ -32,9 +32,11 @@ public class Library{
         newRec.genre = input.nextLine();
         System.out.println("\nAdding Record...");
         int id = mediaList.size() + 1;
-        mediaList.put(id, newRec);
+        mediaList.put(id, newRec); 
+        */
 
-        String insertStr = "INSERT INTO " + selectionStr +""
+        
+        String insertStr = "INSERT INTO " + selectionStr + " VALUES "
 
         return id;
     }

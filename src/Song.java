@@ -1,21 +1,26 @@
 import java.sql.*;
 
-public class Creator extends RecordType{
+public class Song extends RecordType{
 
-    int id;
-    String type, name;
+    int id, album_id, number, duration, size;
+    String title;
 
-    public Creator(String type, int id, String name){
+    public Song(int id, int album_id, String title, int number, int duration, 
+    int size_bytes){
         this.id = id;
-        this.name = name;
-        this.type = type;
+        this.album_id = album_id;
+        this.title = title;
+        this.number = number;
+        this.duration = duration;
+        this.size = size_bytes;
+
     }
 
     @Override
     public void add(Connection conn) {
         
-        String insertStr = "INSERT INTO " + type + " VALUES " +
-        "(" + id + ", " + name + ");";
+        String insertStr = "INSERT INTO Song VALUES " +
+        "(" + id + ", " + album_id + ", " + title + ", " + number + ", " + duration + ", " + size + ");";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
@@ -34,6 +39,7 @@ public class Creator extends RecordType{
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void delete() {
         // TODO Auto-generated method stub
