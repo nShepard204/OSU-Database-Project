@@ -60,22 +60,56 @@ public class SearchGUI extends JFrame implements ActionListener{
         ShepGuiUtils.frameCleanup(this);
     }
 
+    private void executeSQL(){
+        Component[] criteriaFields = this.criteria.getComponents();
+        // Attribute, Value
+        //Map<String, String> userInput = new HashMap<String, String>();
+        LinkedList<String> criteriaStrings = new LinkedList<String>();
+        String temp = "";
+        for(Component c : criteriaFields){
+            if(c.getName().equals("attrSelect") && c.getClass().equals(JComboBox.class))
+            {
+                JComboBox<?> tempBox = (JComboBox<?>)c;
+                temp += String.valueOf(tempBox.getSelectedItem()) + " ";
+            } 
+            else if(c.getName().equals("opSelect") && c.getClass().equals(JComboBox.class))
+            {
+                JComboBox<?> tempBox = (JComboBox<?>)c;
+                temp += String.valueOf(tempBox.getSelectedItem()) + " ";
+            } 
+            else if (c.getName().equals("userInput") && c.getClass().equals(JTextField.class))
+            {
+                JTextField field = (JTextField)c;
+                temp += field.getText();
+                criteriaStrings.add(temp);
+                temp = "";
+            }
+        }
+
+        for(String s : criteriaStrings){
+            System.out.println(s);
+        }
+        
+        /* This is there the variable type transmutation and actual SQL will go. */
+    }
+
     @Override
     public void actionPerformed(ActionEvent e){
 
-        System.out.println(this.criteriaCount);
-
         if(e.getSource().equals(this.addFilter)){
             JComboBox<String> attrSelect = new JComboBox<String>(attrList.toArray(new String[attrList.size()]));
+            attrSelect.setName("attrSelect");
             attrSelect.addActionListener(this);
 
             // Operator Selector.
             String[] operators = {"==", "!=", ">=", "<=", ">", "<"};
             JComboBox<String> opSelect = new JComboBox<String>(operators);
+            opSelect.setName("opSelect");
             opSelect.addActionListener(this);
 
             // User Input for Comparison.
             JTextField userInput = new JTextField();
+            userInput.setName("userInput");
 
             this.criteria.add(attrSelect, -1);
             this.criteria.add(opSelect, -1);
@@ -108,6 +142,11 @@ public class SearchGUI extends JFrame implements ActionListener{
             this.criteria.repaint();
             this.pack();
 
+        }
+
+        if(e.getSource().equals(this.submit)){
+            System.out.println("Executing SQL");
+            this.executeSQL();
         }
     }
 }
