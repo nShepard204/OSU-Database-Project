@@ -33,18 +33,6 @@ public class Patron {
         }
     }
 
-    public void makeOrderList(Connection conn){
-        //TODO: SQL code to make new order list table
-    }
-
-    public void addToOrderList(Connection conn){
-
-    }
-
-    public void updateOrderList(Connection conn){
-        
-    }
-
     public void edit() {
         // TODO Auto-generated method stub
         
