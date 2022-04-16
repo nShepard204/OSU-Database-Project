@@ -12,6 +12,7 @@ public class SearchGUI extends JFrame implements ActionListener{
     private JButton removeFilter = new JButton("Remove Filter");
     private JButton quit = ShepGuiUtils.makeQuitButton(this);
     private JButton submit = new JButton("Search Database");
+    private JTable resultsTable = new JTable();
 
     // Other shit.
     private int criteriaCount = 0;
@@ -60,22 +61,74 @@ public class SearchGUI extends JFrame implements ActionListener{
         ShepGuiUtils.frameCleanup(this);
     }
 
+    private void executeSQL(){
+        Component[] criteriaFields = this.criteria.getComponents();
+        // Attribute, Value
+        //Map<String, String> userInput = new HashMap<String, String>();
+        LinkedList<String> criteriaStrings = new LinkedList<String>();
+        String temp = "";
+        for(Component c : criteriaFields){
+            if(c.getName().equals("attrSelect") && c.getClass().equals(JComboBox.class))
+            {
+                JComboBox<?> tempBox = (JComboBox<?>)c;
+                temp += String.valueOf(tempBox.getSelectedItem()) + " ";
+            } 
+            else if(c.getName().equals("opSelect") && c.getClass().equals(JComboBox.class))
+            {
+                JComboBox<?> tempBox = (JComboBox<?>)c;
+                temp += String.valueOf(tempBox.getSelectedItem()) + " ";
+            } 
+            else if (c.getName().equals("userInput") && c.getClass().equals(JTextField.class))
+            {
+                JTextField field = (JTextField)c;
+                temp += field.getText();
+                criteriaStrings.add(temp);
+                temp = "";
+            }
+        }
+        /* This is there the variable type transmutation and actual SQL will go. */
+
+        // Something something we collected data.
+        String[][] data = {
+            {"Burnout", "Dookie", "269", "1994"},
+            {"Green Day", "1,039/Smoothed Out Slappy Hours", "420", "1991"}
+        };
+        String[] colNames = {"Song Title", "Album", "Length", "Release Year"};
+
+        this.renderTable(data, colNames);
+    }
+
+    private void renderTable(String[][] data, String[] colNames){
+        JFrame tableFrame = new JFrame();
+        tableFrame.setTitle("Search Results");
+        this.resultsTable = new JTable(data, colNames);
+        this.resultsTable.setBounds(30, 40, 200, 300);
+        // Set scroll pane.
+        JScrollPane sp = new JScrollPane(this.resultsTable);
+        tableFrame.add(sp);
+        // Set the frame and render the table.
+        tableFrame.setSize(500, 200);
+        tableFrame.setVisible(true);
+        tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e){
 
-        System.out.println(this.criteriaCount);
-
         if(e.getSource().equals(this.addFilter)){
             JComboBox<String> attrSelect = new JComboBox<String>(attrList.toArray(new String[attrList.size()]));
+            attrSelect.setName("attrSelect");
             attrSelect.addActionListener(this);
 
             // Operator Selector.
             String[] operators = {"==", "!=", ">=", "<=", ">", "<"};
             JComboBox<String> opSelect = new JComboBox<String>(operators);
+            opSelect.setName("opSelect");
             opSelect.addActionListener(this);
 
             // User Input for Comparison.
             JTextField userInput = new JTextField();
+            userInput.setName("userInput");
 
             this.criteria.add(attrSelect, -1);
             this.criteria.add(opSelect, -1);
@@ -109,5 +162,12 @@ public class SearchGUI extends JFrame implements ActionListener{
             this.pack();
 
         }
+
+        if(e.getSource().equals(this.submit)){
+            System.out.println("Executing SQL");
+            this.executeSQL();
+        }
+
+        
     }
 }
