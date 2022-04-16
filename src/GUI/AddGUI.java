@@ -1,9 +1,10 @@
 package GUI;
+
 import javax.swing.*;
 
-import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.sql.Connection;
+
 import DataModels.*;
 
 public class AddGUI extends JFrame implements ActionListener{
@@ -19,7 +20,7 @@ public class AddGUI extends JFrame implements ActionListener{
     // Visual Components.
     private JButton quitButton = ShepGuiUtils.makeQuitButton(this);
     private JButton submitButton = new JButton("Add To Database");
-    //private Connection conn;
+    private Connection conn;
 
     private int movie = 1000, album = 2000, book = 3000, song = 4000, patron = 5000, creator = 10000;
 
@@ -50,7 +51,7 @@ public class AddGUI extends JFrame implements ActionListener{
     }
 
     // Constructor.
-    public AddGUI(){
+    public AddGUI(Connection conn){
         // Add selector logic to the layout.
         this.tableSelect.addActionListener(this);
         this.renderSelect();
@@ -60,6 +61,7 @@ public class AddGUI extends JFrame implements ActionListener{
         this.renderButtons();
         // Prepare and render the GUI.
         this.renderGUI();
+        this.conn = conn;
     }
 
     // Helper Methods.
@@ -445,7 +447,7 @@ public class AddGUI extends JFrame implements ActionListener{
     }
 
     private void executeSQL(RecordType r){
-        r.add(App.getApp().conn);
+        r.add(conn);
         /* This is there the variable type transmutation and actual SQL will go. */
     }
 

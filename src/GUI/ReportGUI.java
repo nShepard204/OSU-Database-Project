@@ -1,7 +1,6 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class ReportGUI extends JFrame implements ActionListener {
