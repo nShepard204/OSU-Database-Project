@@ -42,8 +42,21 @@ public class Song extends RecordType{
     }
 
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
+    public void delete(Connection conn, int id) {
+        String insertStr = "DELETE FROM Song \n" +
+        "Where album_id = ?;";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(insertStr);
+            stmt.setInt(1, id);
+            stmt.executeQuery();
+        
+            if(stmt != null) { stmt.close(); }
+        
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
     }
     

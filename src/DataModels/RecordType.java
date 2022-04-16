@@ -8,5 +8,5 @@ public abstract class RecordType {
 
     public abstract void add(Connection conn);
     public abstract void edit();
-    public abstract void delete();
+    public abstract void delete(Connection conn, int id);
  }

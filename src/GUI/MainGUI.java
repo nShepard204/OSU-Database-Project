@@ -1,9 +1,11 @@
 package GUI;
 
+
+
 // Imports.
-import java.util.*;
 import java.sql.*;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -48,7 +50,7 @@ public class MainGUI extends JFrame implements ActionListener{
         String buttonTxt = ((JButton)e.getSource()).getText();
         switch(buttonTxt){
             case "Add Records":
-                new AddGUI();
+                new AddGUI(conn);
                 break;
             case "Edit Records":
                 new EditGUI();

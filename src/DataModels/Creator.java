@@ -15,8 +15,8 @@ public class Creator extends RecordType{
     @Override
     public void add(Connection conn) {
         
-        String insertStr = "INSERT INTO " + type + " VALUES " +
-        "(" + id + ", " + name + ");";
+        String insertStr = "INSERT INTO `" + type + "` VALUES " +
+        "(`" + id + "`, `" + name + "`)";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
@@ -37,8 +37,21 @@ public class Creator extends RecordType{
     }
     
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
+    public void delete(Connection conn, int id) {
+        String insertStr = "DELETE FROM " + type + " \n" +
+        "Where album_id = ?;";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(insertStr);
+            stmt.setInt(1, id);
+            stmt.executeQuery();
+        
+            if(stmt != null) { stmt.close(); }
+        
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
     }
     

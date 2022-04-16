@@ -1,13 +1,16 @@
+
+
 // Imports.
-import GUI.MainGUI;
 import java.sql.*;
+
+import GUI.MainGUI;
 public class App {
     private static final String DATABASE = "team11.db";
     private static App theApp;
-    public static Connection conn;
+    public Connection conn;
     public static MainGUI gui;
 
-    static App getApp(){
+    public static App getApp(){
         return theApp;
     }
 

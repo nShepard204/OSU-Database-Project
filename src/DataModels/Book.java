@@ -3,11 +3,11 @@ import java.sql.*;
 
 public class Book extends RecordType{
 
-    int id, author_id, physical, digital, backorder;
+    int id, author_id, physical, digital, AB, backorder;
     String title, genre;
 
-    public Book(int id, String title, String genre, int backorder, int album_count, 
-    int author_id, int physical, int digital){
+    public Book(int id, int author_id, String title, String genre
+    , int physical, int digital, int AB, int backorder){
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -15,6 +15,7 @@ public class Book extends RecordType{
         this.digital = digital;
         this.backorder = backorder;
         this.author_id = author_id;
+        this.AB = AB;
     }
 
     @Override
@@ -22,7 +23,7 @@ public class Book extends RecordType{
         
         String insertStr = "INSERT INTO Book VALUES " +
         "(" + id + ", " + author_id + ", " + title + ", " + genre + ", " + physical + ", " + 
-        digital + ", " + backorder + ");";
+        digital + ", " + AB + ", " + backorder + ");";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
@@ -43,8 +44,21 @@ public class Book extends RecordType{
     }
 
     @Override
-    public void delete() {
-        // TODO Auto-generated method stub
+    public void delete(Connection conn, int id) {
+        String insertStr = "DELETE FROM Book \n" +
+        "Where album_id = ?;";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(insertStr);
+            stmt.setInt(1, id);
+            stmt.executeQuery();
+        
+            if(stmt != null) { stmt.close(); }
+        
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
     }
 
