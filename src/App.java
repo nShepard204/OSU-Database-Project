@@ -2,6 +2,8 @@
 
 // Imports.
 import java.sql.*;
+
+import GUI.MainGUI;
 public class App {
     private static final String DATABASE = "team11.db";
     private static App theApp;
