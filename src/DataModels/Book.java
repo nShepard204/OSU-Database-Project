@@ -1,29 +1,28 @@
+package DataModels;
 import java.sql.*;
 
-public class Movie extends RecordType{
+public class Book extends RecordType{
 
-    int id, year, artist_id, physical, digital, backorder, length;
-    String title, genre, format;
+    int id, author_id, physical, digital, backorder;
+    String title, genre;
 
-    public Movie(int id, String title, String genre, int digital, int physical,
-    int length, int backorder, int director_id, String format){
+    public Book(int id, String title, String genre, int backorder, int album_count, 
+    int author_id, int physical, int digital){
         this.id = id;
         this.title = title;
         this.genre = genre;
-        this.length = length;
         this.physical = physical;
         this.digital = digital;
         this.backorder = backorder;
-        this.artist_id = director_id;
-        this.format = format;
+        this.author_id = author_id;
     }
 
     @Override
     public void add(Connection conn) {
         
-        String insertStr = "INSERT INTO Movie VALUES " +
-        "(" + id + ", " + title + ", " + genre + ", " + length + ", " + artist_id + 
-        physical + ", " + digital  + ", " + backorder + ", " + format +  ");";
+        String insertStr = "INSERT INTO Book VALUES " +
+        "(" + id + ", " + author_id + ", " + title + ", " + genre + ", " + physical + ", " + 
+        digital + ", " + backorder + ");";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);

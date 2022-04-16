@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 public class MainGUI extends JFrame implements ActionListener{
     // Class Variables.
-    
+    private Connection conn;
     private void createButton(JPanel mainPane, String buttonTxt){
         JButton button = new JButton(buttonTxt);
         button.addActionListener(this);
@@ -18,12 +18,14 @@ public class MainGUI extends JFrame implements ActionListener{
         mainPane.add(button);
     }
 
-    public MainGUI(){
+    public MainGUI(Connection conn){
         // Setup the frame and the panel to put components on.
         JFrame mainFrame = new JFrame("Team 11 CSE 3241 Database Project");
         JPanel mainPane = new JPanel();
         FlowLayout mainLayout = new FlowLayout(FlowLayout.CENTER, 10, 10);
         mainPane.setLayout(mainLayout);
+
+        this.conn = conn;
 
         // Add buttons to the database.
         createButton(mainPane, "Add Records");
@@ -52,7 +54,7 @@ public class MainGUI extends JFrame implements ActionListener{
                 new EditGUI();
                 break;
             case "Search Database":
-                new SearchGUI();
+                new SearchGUI(this.conn);
                 break;
             case "Manage Orders":
                 //new OrderGUI();

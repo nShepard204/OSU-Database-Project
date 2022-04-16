@@ -1,3 +1,4 @@
+package DataModels;
 import java.sql.Connection;
 
 public abstract class RecordType {
