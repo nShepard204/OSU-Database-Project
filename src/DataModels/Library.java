@@ -1,3 +1,4 @@
+package DataModels;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -36,7 +37,7 @@ public class Library{
         */
 
         
-        String insertStr = "INSERT INTO " + selectionStr + " VALUES "
+        String insertStr = "INSERT INTO " + selectionStr + " VALUES ";
 
         return id;
     }
