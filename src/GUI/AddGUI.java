@@ -2,8 +2,11 @@ package GUI;
 
 import javax.swing.*;
 
+import java.awt.Component;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 import DataModels.*;
 
@@ -91,7 +94,7 @@ public class AddGUI extends JFrame implements ActionListener{
         this.addPanel.add(this.quitButton);
     }
 
-    private RecordType renderCreatorForm(String table){
+    private void renderCreatorForm(String table){
         // Remove all components & add the selector back.
         this.addPanel.removeAll();
         this.renderSelect();
@@ -104,18 +107,14 @@ public class AddGUI extends JFrame implements ActionListener{
         nameField.setName("name");
         this.addPanel.add(nameLabel);
         this.addPanel.add(nameField);
-        String name = nameField.getText();
-
-        Creator creator = new Creator(table, 1, name);
 
         // Add the buttons bac.
         this.renderButtons();
         // Re-render our panel.
         this.renderGUI();
-        return creator;
     }
 
-    private RecordType renderAlbumForm(String table){
+    private void renderAlbumForm(){
         // Remove all components & add the selector back.
         this.addPanel.removeAll();
         this.renderSelect();
@@ -128,7 +127,7 @@ public class AddGUI extends JFrame implements ActionListener{
         nameField.setName("Title");
         this.addPanel.add(nameLabel);
         this.addPanel.add(nameField);
-        //String name = nameField.getText();
+        
 
         JLabel yearLabel = new JLabel("Enter Album Release Year:", JLabel.TRAILING);
         JTextField yearField = new JTextField();
@@ -137,7 +136,7 @@ public class AddGUI extends JFrame implements ActionListener{
         yearField.setName("Release Year");
         this.addPanel.add(yearLabel);
         this.addPanel.add(yearField);
-        //String year = yearField.getText();
+        
 
         JLabel genreLabel = new JLabel("Enter Album Genre:", JLabel.TRAILING);
         JTextField genreField = new JTextField();
@@ -146,7 +145,7 @@ public class AddGUI extends JFrame implements ActionListener{
         genreField.setName("Genre");
         this.addPanel.add(genreLabel);
         this.addPanel.add(genreField);
-        //String genre = genreField.getText();
+        
 
         JLabel artistIDLabel = new JLabel("Enter Album Artist ID:", JLabel.TRAILING);
         JTextField artistIDField = new JTextField();
@@ -155,7 +154,7 @@ public class AddGUI extends JFrame implements ActionListener{
         artistIDField.setName("Artist ID");
         this.addPanel.add(artistIDLabel);
         this.addPanel.add(artistIDField);
-        //String id = artistIDField.getText();
+        
 
         JLabel tcountLabel = new JLabel("Enter Album Track Count:", JLabel.TRAILING);
         JTextField tcountField = new JTextField();
@@ -164,7 +163,7 @@ public class AddGUI extends JFrame implements ActionListener{
         tcountField.setName("Track Count");
         this.addPanel.add(tcountLabel);
         this.addPanel.add(tcountField);
-        //String count = tcountField.getText();
+        
 
         JLabel durationLabel = new JLabel("Enter Album Total Duration:", JLabel.TRAILING);
         JTextField durationField = new JTextField();
@@ -173,7 +172,7 @@ public class AddGUI extends JFrame implements ActionListener{
         durationField.setName("Duration");
         this.addPanel.add(durationLabel);
         this.addPanel.add(durationField);
-        //String dur = durationField.getText();
+        
 
         JLabel formatLabel = new JLabel("Enter Album Format:", JLabel.TRAILING);
         JTextField formatField = new JTextField();
@@ -182,18 +181,14 @@ public class AddGUI extends JFrame implements ActionListener{
         formatField.setName("Format");
         this.addPanel.add(formatLabel);
         this.addPanel.add(formatField);
-        //String format = formatField.getText();
-        int alcount = (album - 2000);
-        //Album album = new Album(getID("Album"), name, genre, Integer.parseInt(year), Integer.parseInt(count), Integer.parseInt(dur), 0, Integer.parseInt(id), format, alcount);
-
+        
         // Add the buttons bac.
         this.renderButtons();
         // Re-render our panel.
         this.renderGUI();
-        return null;
     }
 
-    private RecordType renderBookForm(String table){
+    private RecordType renderBookForm(){
         // Remove all components & add the selector back.
         this.addPanel.removeAll();
         this.renderSelect();
@@ -262,7 +257,7 @@ public class AddGUI extends JFrame implements ActionListener{
         return book;
     }
 
-    private RecordType renderMovieForm(String table){
+    private RecordType renderMovieForm(){
         // Remove all components & add the selector back.
         this.addPanel.removeAll();
         this.renderSelect();
@@ -346,7 +341,7 @@ public class AddGUI extends JFrame implements ActionListener{
         return movie;
     }
 
-    private RecordType renderSongForm(String table){
+    private RecordType renderSongForm(){
         // Remove all components & add the selector back.
         this.addPanel.removeAll();
         this.renderSelect();
@@ -402,7 +397,7 @@ public class AddGUI extends JFrame implements ActionListener{
         return song;
     }
 
-    private RecordType renderPatronForm(String table){
+    private RecordType renderPatronForm(){
         // Remove all components & add the selector back.
         this.addPanel.removeAll();
         this.renderSelect();
@@ -449,39 +444,72 @@ public class AddGUI extends JFrame implements ActionListener{
         return patron;
     }
 
-    private void executeSQL(RecordType r){
-        r.add(conn);
+    private void executeSQL(){
+        Component[] formFields = this.addPanel.getComponents();
+        // Attribute, Value
+        Map<String, String> userInput = new HashMap<String, String>();
+        // For each text field in the form, grab the attribute name & its value.
+        System.out.println(formFields[0].toString());
+        for (Component c : formFields){
+            if(c.getClass().equals(JTextField.class)){
+                JTextField field = (JTextField)c;
+                userInput.put(field.getName(), field.getText());
+            }
+        }
+        switch (this.current){
+            case "Creator":
+                Creator creator = new Creator(this.current, getID(this.current), userInput.get("name"));
+                creator.add(conn);
+                break;
+            case "Album":
+                String name = userInput.get("Title");
+                String year = userInput.get("Release Year");
+                String genre = userInput.get("Genre");
+                String id = userInput.get("Artist ID");
+                String count = userInput.get("Track Count");
+                String dur = userInput.get("Duration");
+                String format = userInput.get("Format");
+                int alcount = (album - 2000);
+                Album album = new Album(getID("Album"), name, genre, Integer.parseInt(year), Integer.parseInt(count), Integer.parseInt(dur), 0, Integer.parseInt(id), format, alcount);
+                album.add(conn);
+                break;
+
+        }
+
         /* This is there the variable type transmutation and actual SQL will go. */
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
         // Form Rendering Logic.
-        if (e.getSource().equals(this.tableSelect)) {
+        if(e.getSource().equals(this.submitButton)){
+            // SQL Logic Here. Perhaps its own method?
+            this.executeSQL();
+        }
+        else if (e.getSource().equals(this.tableSelect)) {
             this.current = String.valueOf(this.tableSelect.getSelectedItem());
             // Add Artist to DB
             /* private String[] tables = {"N/A", "Artist", "Actor", "Author", "Director", "Album", "Book", "Movie", "Song", 
                     "Checkout List", "Order List", "Patron", }; */
             if(this.current.equals(this.tables[1]) ||
             this.current.equals(this.tables[2]) ||
-            this.current.equals(this.tables[3]) ||
-            this.current.equals(this.tables[4])){ 
+            this.current.equals(this.tables[3]) || this.current.equals(this.tables[4])){ 
                 System.out.println(this.current);
-                this.r = this.renderCreatorForm(this.current);
+                this.renderCreatorForm(this.current);
             }else if(this.current.equals(this.tables[5])){ 
-                this.r = this.renderAlbumForm(this.tables[5]);
+                this.renderAlbumForm();
             }else if(this.current.equals(this.tables[7])){ 
-                this.r = this.renderBookForm(this.tables[7]);
+                this.r = this.renderBookForm();
             }else if(this.current.equals(this.tables[8])){ 
-                this.r = this.renderMovieForm(this.tables[8]);
+                this.r = this.renderMovieForm();
             }else if(this.current.equals(this.tables[9])){ 
-                this.r = this.renderSongForm(this.tables[9]);
+                this.r = this.renderSongForm();
             }else if(this.current.equals(this.tables[10])){ 
                 //this.renderCOLForm(this.tables[10]);
             }else if(this.current.equals(this.tables[11])){ 
                 //this.renderOLForm(this.tables[11]);
             }else if(this.current.equals(this.tables[12])){ 
-                this.r = this.renderPatronForm(this.tables[12]);
+                this.r = this.renderPatronForm();
             }
             // Render Base Form (haha). 
             else {
@@ -491,10 +519,7 @@ public class AddGUI extends JFrame implements ActionListener{
                 this.renderGUI();
             } 
         }
-        if(e.getSource().equals(this.submitButton)){
-            // SQL Logic Here. Perhaps its own method?
-            this.executeSQL(this.r);
-        }
+        
     }
 
     
