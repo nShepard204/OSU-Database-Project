@@ -21,4 +21,8 @@ public class ShepGuiUtils {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
+
+    public static void wipMessage(){
+        JOptionPane.showMessageDialog(null, "This feature is a WIP, please try again later!", "WIP Feature", JOptionPane.INFORMATION_MESSAGE);
+    }
 }

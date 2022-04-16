@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.sql.*;
+import java.sql.Date;
 
 public class SearchGUI extends JFrame implements ActionListener{
     // Class Swing Variables.
@@ -112,9 +113,184 @@ public class SearchGUI extends JFrame implements ActionListener{
             this.renderPatronTable();
         } else if(table.equals("Album")){
             this.renderAlbumTable();
+        } else if(table.equals("Book")){
+            this.renderBookTable();
+        } else if(table.equals("CheckoutList")){
+            this.renderCheckoutList();
+        } else if(table.equals("OrderList")){
+            this.renderOrderList();
+        } else if(table.equals("Movie")){
+            this.renderMovieTable();
         }
     }
 
+    // Complete
+    private void renderCheckoutList(){
+        ArrayList<Object[]> dataList = new ArrayList<Object[]>();
+        ArrayList<String> columnNameList = new ArrayList<String>();
+
+        String sqlStr = "SELECT * FROM CheckoutList";
+        try {
+            PreparedStatement sqlStmt = conn.prepareStatement(sqlStr);
+            ResultSet results = sqlStmt.executeQuery();
+            ResultSetMetaData meta = results.getMetaData();
+
+            int colCount = meta.getColumnCount();
+            for(int i = 1; i <= colCount; i++){
+                String colName = meta.getColumnName(i);
+                columnNameList.add(colName);
+            }
+            
+            while(results.next()){
+                int patronId = results.getInt("patron_id");
+                int type = results.getInt("type");
+                int itemId = results.getInt("item_id");
+                String checkoutDate = results.getString("checkout_date");
+                String returnDate = results.getString("return_date");
+                Object[] temp = {patronId, type, itemId, checkoutDate, returnDate};
+                dataList.add(temp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        Object[][] data = new Object[dataList.size()][];
+        for(int i = 0; i < dataList.size(); i++){
+            data[i] = dataList.get(i);
+        }
+        String[] columnNames = new String[columnNameList.size()];
+        for(int i = 0; i < columnNameList.size(); i++){
+            columnNames[i] = columnNameList.get(i);
+        }
+
+        JFrame tableFrame = new JFrame();
+        tableFrame.setTitle("Search Results");
+        this.resultsTable = new JTable(new PatronModel(data, columnNames, this.conn));
+        this.resultsTable.setBounds(30, 40, 200, 300);
+        // Set scroll pane.
+        JScrollPane sp = new JScrollPane(this.resultsTable);
+        tableFrame.add(sp);
+        // Set the frame and render the table.
+        tableFrame.setSize(500, 200);
+        tableFrame.setVisible(true);
+        tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    // Complete
+    private void renderOrderList(){
+        ArrayList<Object[]> dataList = new ArrayList<Object[]>();
+        ArrayList<String> columnNameList = new ArrayList<String>();
+
+        String sqlStr = "SELECT * FROM OrderList";
+        try {
+            PreparedStatement sqlStmt = conn.prepareStatement(sqlStr);
+            ResultSet results = sqlStmt.executeQuery();
+            ResultSetMetaData meta = results.getMetaData();
+
+            int colCount = meta.getColumnCount();
+            for(int i = 1; i <= colCount; i++){
+                String colName = meta.getColumnName(i);
+                columnNameList.add(colName);
+            }
+            
+            while(results.next()){
+                int id = results.getInt("id");
+                String title = results.getString("title");
+                int tableId = results.getInt("table_id");
+                int copies = results.getInt("copies");
+                String price = results.getString("price_per_copy");
+                String arrivalDate = results.getString("est_arrival_date");
+                int arrived = results.getInt("arrived");
+                Object[] temp = {id, title, tableId, copies, price, arrivalDate, arrived};
+                dataList.add(temp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        Object[][] data = new Object[dataList.size()][];
+        for(int i = 0; i < dataList.size(); i++){
+            data[i] = dataList.get(i);
+        }
+        String[] columnNames = new String[columnNameList.size()];
+        for(int i = 0; i < columnNameList.size(); i++){
+            columnNames[i] = columnNameList.get(i);
+        }
+
+        JFrame tableFrame = new JFrame();
+        tableFrame.setTitle("Search Results");
+        this.resultsTable = new JTable(new PatronModel(data, columnNames, this.conn));
+        this.resultsTable.setBounds(30, 40, 200, 300);
+        // Set scroll pane.
+        JScrollPane sp = new JScrollPane(this.resultsTable);
+        tableFrame.add(sp);
+        // Set the frame and render the table.
+        tableFrame.setSize(500, 200);
+        tableFrame.setVisible(true);
+        tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    // Complete
+    private void renderMovieTable(){
+        ArrayList<Object[]> dataList = new ArrayList<Object[]>();
+        ArrayList<String> columnNameList = new ArrayList<String>();
+
+        String sqlStr = "SELECT * FROM Movie";
+        try {
+            PreparedStatement sqlStmt = conn.prepareStatement(sqlStr);
+            ResultSet results = sqlStmt.executeQuery();
+            ResultSetMetaData meta = results.getMetaData();
+
+            int colCount = meta.getColumnCount();
+            for(int i = 1; i <= colCount; i++){
+                String colName = meta.getColumnName(i);
+                columnNameList.add(colName);
+            }
+            
+            while(results.next()){
+                int id = results.getInt("id");
+                String title = results.getString("title");
+                String genre = results.getString("genre");
+                Time length = results.getTime("length");
+                int directorId = results.getInt("director_id");
+                int actorId = results.getInt("actor_id");
+                int physical = results.getInt("physical");
+                int digital = results.getInt("digital");
+                int backOrder = results.getInt("on_backorder");
+                String format = results.getString("format");
+                Object[] temp = {id, title, genre, length, directorId, actorId, physical, digital, backOrder, format};
+                dataList.add(temp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        Object[][] data = new Object[dataList.size()][];
+        for(int i = 0; i < dataList.size(); i++){
+            data[i] = dataList.get(i);
+        }
+        String[] columnNames = new String[columnNameList.size()];
+        for(int i = 0; i < columnNameList.size(); i++){
+            columnNames[i] = columnNameList.get(i);
+        }
+
+        JFrame tableFrame = new JFrame();
+        tableFrame.setTitle("Search Results");
+        this.resultsTable = new JTable(new PatronModel(data, columnNames, this.conn));
+        this.resultsTable.setBounds(30, 40, 200, 300);
+        // Set scroll pane.
+        JScrollPane sp = new JScrollPane(this.resultsTable);
+        tableFrame.add(sp);
+        // Set the frame and render the table.
+        tableFrame.setSize(500, 200);
+        tableFrame.setVisible(true);
+        tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    // Complete
     private void renderAlbumTable(){
         ArrayList<Object[]> dataList = new ArrayList<Object[]>();
         ArrayList<String> columnNameList = new ArrayList<String>();
@@ -172,6 +348,63 @@ public class SearchGUI extends JFrame implements ActionListener{
         tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    // Complete
+    private void renderBookTable(){
+        ArrayList<Object[]> dataList = new ArrayList<Object[]>();
+        ArrayList<String> columnNameList = new ArrayList<String>();
+
+        String sqlStr = "SELECT * FROM Book";
+        try {
+            PreparedStatement sqlStmt = conn.prepareStatement(sqlStr);
+            ResultSet results = sqlStmt.executeQuery();
+            ResultSetMetaData meta = results.getMetaData();
+
+            int colCount = meta.getColumnCount();
+            for(int i = 1; i <= colCount; i++){
+                String colName = meta.getColumnName(i);
+                columnNameList.add(colName);
+            }
+            
+            while(results.next()){
+                int book_id = results.getInt("book_id");
+                String title = results.getString("title");
+                int authorId = results.getInt("author_id");
+                String genre = results.getString("genre");
+                int physical = results.getInt("physical");
+                int digital = results.getInt("digital");
+                int audioBook = results.getInt("audio_book");
+                int backOrder = results.getInt("on_backorder");
+                Object[] temp = {book_id, title, authorId, genre, physical, digital, audioBook, backOrder};
+                dataList.add(temp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        Object[][] data = new Object[dataList.size()][];
+        for(int i = 0; i < dataList.size(); i++){
+            data[i] = dataList.get(i);
+        }
+        String[] columnNames = new String[columnNameList.size()];
+        for(int i = 0; i < columnNameList.size(); i++){
+            columnNames[i] = columnNameList.get(i);
+        }
+
+        JFrame tableFrame = new JFrame();
+        tableFrame.setTitle("Search Results");
+        this.resultsTable = new JTable(new PatronModel(data, columnNames, this.conn));
+        this.resultsTable.setBounds(30, 40, 200, 300);
+        // Set scroll pane.
+        JScrollPane sp = new JScrollPane(this.resultsTable);
+        tableFrame.add(sp);
+        // Set the frame and render the table.
+        tableFrame.setSize(500, 200);
+        tableFrame.setVisible(true);
+        tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    // Complete
     private void renderPatronTable(){
         ArrayList<Object[]> dataList = new ArrayList<Object[]>();
         ArrayList<String> columnNameList = new ArrayList<String>();
@@ -194,7 +427,6 @@ public class SearchGUI extends JFrame implements ActionListener{
                 String name = results.getString("name");
                 String email = results.getString("email");
                 String address = results.getString("address");
-                //Patron fuck = new Patron(id, lib_card_num, name, email, address);
                 Object[] temp = {id, lib_card_num, name, email, address};
                 dataList.add(temp);
             }

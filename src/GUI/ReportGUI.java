@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class ReportGUI extends JFrame implements ActionListener {
     private final String[] reportOptions = {"Songs by ARTIST release before YEAR", "# of Albums checked out by a single patron", "Most popular actor in database", "Most listened to artist in database", "Patron who has checked out the most videos"};
@@ -27,13 +28,11 @@ public class ReportGUI extends JFrame implements ActionListener {
 
     private void runFirstReport(){
         // Query for data.
-        String[][] data = {
-            {"Burnout", "Dookie", "269", "1994"},
-            {"Green Day", "1,039/Smoothed Out Slappy Hours", "420", "1991"}
-        };
-        String[] colNames = {"Song Title", "Album", "Length", "Release Year"};
+        ArrayList<Object[]> dataList = new ArrayList<Object[]>();
+        ArrayList<String> columnNameList = new ArrayList<String>();
+        
         JFrame tableFrame = new JFrame(reportOptions[0]);
-        this.reportTable = new JTable(data, colNames);
+        //this.reportTable = new JTable(data, colNames);
         this.reportTable.setBounds(30, 40, 200, 300);
         this.reportTable.setEnabled(false);
         // Set scroll pane.
@@ -48,7 +47,8 @@ public class ReportGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(this.runReport)){
-            String reportStr = String.valueOf(this.reportSelector.getSelectedItem());
+            ShepGuiUtils.wipMessage();
+            /* String reportStr = String.valueOf(this.reportSelector.getSelectedItem());
             if(reportStr.equals(reportOptions[0])){
                 runFirstReport();
             } else if(reportStr.equals(reportOptions[1])){
@@ -61,7 +61,7 @@ public class ReportGUI extends JFrame implements ActionListener {
                 // runFifthReport();
             } else {
                 JOptionPane.showMessageDialog(this, "An error occurred. Please try again later.", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
+            } */
         }
     }
 }
