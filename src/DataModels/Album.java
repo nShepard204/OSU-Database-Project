@@ -1,3 +1,4 @@
+package DataModels;
 import java.sql.*;
 
 public class Album extends RecordType{
