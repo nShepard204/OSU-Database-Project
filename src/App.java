@@ -56,9 +56,10 @@ public class App {
                     inUse = false;
                     break;
                 case 1:
+                    Library library = new Library();
                     // Add a record
-                    /* int id = library.addRecord(input);
-                    System.out.println("\nRecord Added! ID: " + id); */
+                    int id = library.addRecord(keyboard);
+                    System.out.println("\nRecord Added! ID: " + id);
                     System.out.println("Add Record Called");
                     break;
                 case 2:
