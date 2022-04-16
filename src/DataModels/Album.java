@@ -7,7 +7,7 @@ public class Album extends RecordType{
     String title, genre, format;
 
     public Album(int id, String title, String genre, int year, int track_count,
-    int duration, int backorder, int album_count, int artist_id, String format){
+    int duration, int backorder, int artist_id, String format, int count){
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -15,9 +15,9 @@ public class Album extends RecordType{
         this.track_count = track_count;
         this.duration = duration;
         this.backorder = backorder;
-        this.count = album_count;
         this.artist_id = artist_id;
         this.format = format;
+        this.count = count;
     }
 
     @Override

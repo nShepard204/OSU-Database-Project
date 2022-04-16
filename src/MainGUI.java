@@ -1,7 +1,6 @@
-package GUI;
+
 
 // Imports.
-import java.util.*;
 import java.sql.*;
 import javax.swing.*;
 

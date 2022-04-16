@@ -1,7 +1,7 @@
 package DataModels;
 import java.sql.*;
 
-public class Patron {
+public class Patron extends RecordType{
     String name, email, address;
     int lib_card_id;
     String order_list_name;
