@@ -4,6 +4,9 @@ package GUI;
 import java.util.*;
 import java.sql.*;
 import javax.swing.*;
+
+import AddGUI;
+
 import java.awt.*;
 import java.awt.event.*;
 

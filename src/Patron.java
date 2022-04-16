@@ -1,25 +1,22 @@
 import java.sql.*;
 
 public class Patron {
-    String name, email, address, checkout_list_id;
+    String name, email, address;
     int lib_card_id;
     String order_list_name;
 
-    public Patron(String name, String email, String address,
-    String chekout_id, int id){
+    public Patron(int id, String name, String email, String address){
         this.lib_card_id = id;
         this.name = name;
         this.email = email;
         this.address = address;
-        this.checkout_list_id = chekout_id;
 
     }
 
     public void add(Connection conn) {
         
         String insertStr = "INSERT INTO Patron VALUES " +
-        "(" + lib_card_id + ", " + name + ", " + email + ", " + address +
-        ", " + checkout_list_id + ");";
+        "(" + lib_card_id + ", " + name + ", " + email + ", " + address + ");";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
