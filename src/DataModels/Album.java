@@ -24,11 +24,20 @@ public class Album extends RecordType{
     public void add(Connection conn) {
         
         String insertStr = "INSERT INTO Album VALUES " +
-        "(" + id + ", " + title + ", " + year + ", " + genre + ", " + artist_id + ", " + track_count + 
-        duration + ", " + backorder + ", " + format + ", " + count + ");";
+        "(?, ?, ?, ?, ?, ?, ?, ?, ? , ?);";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
+            stmt.setInt(1, id);
+            stmt.setString(2, title);
+            stmt.setString(3, genre);
+            stmt.setInt(4, year);
+            stmt.setInt(5, track_count);
+            stmt.setInt(6,duration);
+            stmt.setInt(7, backorder);
+            stmt.setInt(8, artist_id);
+            stmt.setString(9, format);
+            stmt.setInt(10, count);
             stmt.executeQuery();
         
             if(stmt != null) { stmt.close(); }
