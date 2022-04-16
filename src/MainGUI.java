@@ -1,11 +1,12 @@
-package GUI;
+
 
 // Imports.
-import java.util.*;
 import java.sql.*;
 import javax.swing.*;
 
-import AddGUI;
+import GUI.EditGUI;
+import GUI.ReportGUI;
+import GUI.SearchGUI;
 
 import java.awt.*;
 import java.awt.event.*;
