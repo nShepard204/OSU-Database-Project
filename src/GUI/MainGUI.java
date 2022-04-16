@@ -55,10 +55,10 @@ public class MainGUI extends JFrame implements ActionListener{
                 new SearchGUI();
                 break;
             case "Manage Orders":
-                new OrderGUI();
+                //new OrderGUI();
                 break;
             case "Generate Reports":
-                // new ReportGUI();
+                new ReportGUI();
                 break;
             default:
                 JOptionPane.showMessageDialog(this, "An error occurred. Please try again later.", "Error!", JOptionPane.ERROR_MESSAGE);

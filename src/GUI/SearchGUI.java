@@ -12,6 +12,7 @@ public class SearchGUI extends JFrame implements ActionListener{
     private JButton removeFilter = new JButton("Remove Filter");
     private JButton quit = ShepGuiUtils.makeQuitButton(this);
     private JButton submit = new JButton("Search Database");
+    private JTable resultsTable = new JTable();
 
     // Other shit.
     private int criteriaCount = 0;
@@ -85,12 +86,30 @@ public class SearchGUI extends JFrame implements ActionListener{
                 temp = "";
             }
         }
-
-        for(String s : criteriaStrings){
-            System.out.println(s);
-        }
-        
         /* This is there the variable type transmutation and actual SQL will go. */
+
+        // Something something we collected data.
+        String[][] data = {
+            {"Burnout", "Dookie", "269", "1994"},
+            {"Green Day", "1,039/Smoothed Out Slappy Hours", "420", "1991"}
+        };
+        String[] colNames = {"Song Title", "Album", "Length", "Release Year"};
+
+        this.renderTable(data, colNames);
+    }
+
+    private void renderTable(String[][] data, String[] colNames){
+        JFrame tableFrame = new JFrame();
+        tableFrame.setTitle("Search Results");
+        this.resultsTable = new JTable(data, colNames);
+        this.resultsTable.setBounds(30, 40, 200, 300);
+        // Set scroll pane.
+        JScrollPane sp = new JScrollPane(this.resultsTable);
+        tableFrame.add(sp);
+        // Set the frame and render the table.
+        tableFrame.setSize(500, 200);
+        tableFrame.setVisible(true);
+        tableFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @Override
@@ -148,5 +167,7 @@ public class SearchGUI extends JFrame implements ActionListener{
             System.out.println("Executing SQL");
             this.executeSQL();
         }
+
+        
     }
 }
