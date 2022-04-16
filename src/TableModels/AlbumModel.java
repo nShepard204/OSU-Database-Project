@@ -5,13 +5,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
 import java.sql.*;
 
-public class PatronModel extends AbstractTableModel implements TableModelListener {
+public class AlbumModel extends AbstractTableModel implements TableModelListener {
     // Class Variables.
     private String[] columnNames;
     private Object[][] data;
     private Connection conn;
 
-    public PatronModel(Object[][] data, String[] columnNames, Connection conn){
+    public AlbumModel(Object[][] data, String[] columnNames, Connection conn){
         this.data = data;
         this.columnNames = columnNames;
         this.conn = conn;
@@ -63,9 +63,9 @@ public class PatronModel extends AbstractTableModel implements TableModelListene
         Object data = model.getValueAt(row, column);
         //System.out.println("Data: " + data);
         //System.out.println("Column Name: " + columnName);
-        String sqlStr = "UPDATE Patron SET " + columnName + " = " + data + " WHERE id = " + this.data[row][0];
+        String sqlStr = "UPDATE Album SET " + columnName + " = " + data + " WHERE id = " + this.data[row][0];
 
-        String sql = "UPDATE Patron" + " SET `" + columnName + "` = ? WHERE id = ?";
+        String sql = "UPDATE Album" + " SET `" + columnName + "` = ? WHERE id = ?";
 
         System.out.println(sqlStr);
         try {
