@@ -1,9 +1,5 @@
-
-
+package GUI;
 import javax.swing.*;
-
-import GUI.ShepGuiUtils;
-import GUI.SpringUtilities;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,8 +8,8 @@ import java.util.*;
 public class AddGUI extends JFrame implements ActionListener{
     // Class Variables.
     private JPanel addPanel = new JPanel(new SpringLayout());
-    private String[] tables = {"N/A", "Artist", "Actor", "Author", "Director", "Album", "Book", "Movie", "Song", 
-                    "Checkout List", "Order List", "Patron", };
+    private String[] tables = {"N/A", "Artist", "Actor", "Author", "Director", "Album", "Book", "Movie", "Song", "Checkout List", "Order List", "Patron"};
+    //private String[] tables = {"no", "fuck", "shit"};
     private JComboBox<String> tableSelect = new JComboBox<String>(this.tables);
     // Spring Utility Variables.
     private int numColumns = 2, initialX = 5, initialY = 5, xPad = 5, yPad = 5;
@@ -21,7 +17,7 @@ public class AddGUI extends JFrame implements ActionListener{
     // Visual Components.
     private JButton quitButton = ShepGuiUtils.makeQuitButton(this);
     private JButton submitButton = new JButton("Add To Database");
-    private Connection conn;
+    //private Connection conn;
 
     // Constructor.
     public AddGUI(){
@@ -52,7 +48,7 @@ public class AddGUI extends JFrame implements ActionListener{
         JLabel selectLabel = new JLabel("Select Record Type to Add:", JLabel.TRAILING);
         selectLabel.setLabelFor(this.tableSelect);
         this.addPanel.add(selectLabel);
-        this.addPanel.add(tableSelect);
+        this.addPanel.add(this.tableSelect);
     }
 
     private void renderButtons(){
@@ -321,8 +317,8 @@ public class AddGUI extends JFrame implements ActionListener{
         String dur;
         dur = durationField.getText();
 
-        Song song = new Song(1, Integer.parseInt(id), name, Integer.parseInt(count), Integer.parseInt(dur), 0);
-        song.add(App.getApp().conn);
+       // Song song = new Song(1, Integer.parseInt(id), name, Integer.parseInt(count), Integer.parseInt(dur), 0);
+        //song.add(App.getApp().conn);
 
         // Add the buttons bac.
         this.renderButtons();
@@ -366,8 +362,8 @@ public class AddGUI extends JFrame implements ActionListener{
         String add;
         add = addressField.getText();
 
-        Patron patron = new Patron(1, name, email, add);
-        patron.add(App.getApp().conn);
+        //Patron patron = new Patron(1, name, email, add);
+        //patron.add(App.getApp().conn);
 
         // Add the buttons bac.
         this.renderButtons();
