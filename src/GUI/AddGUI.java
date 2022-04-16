@@ -13,6 +13,7 @@ public class AddGUI extends JFrame implements ActionListener{
     private String[] tables = {"N/A", "Artist", "Actor", "Author", "Director", "Album", "Book", "Movie", "Song", "Checkout List", "Order List", "Patron"};
     //private String[] tables = {"no", "fuck", "shit"};
     private JComboBox<String> tableSelect = new JComboBox<String>(this.tables);
+    private RecordType r = null;
 
     // Spring Utility Variables.
     private int numColumns = 2, initialX = 5, initialY = 5, xPad = 5, yPad = 5;
@@ -66,10 +67,12 @@ public class AddGUI extends JFrame implements ActionListener{
 
     // Helper Methods.
     private void renderGUI(){
+        System.out.println(this.addPanel.getComponentCount());
         int numRows = Math.max((this.addPanel.getComponentCount()/2), 2);
         SpringUtilities.makeGrid(this.addPanel, numRows, this.numColumns, this.initialX, this.initialY, this.xPad, this.yPad);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setTitle("Add Records");
+        this.addPanel.revalidate();
         this.setContentPane(this.addPanel);
         this.pack();
         this.setLocationRelativeTo(null);
@@ -125,7 +128,7 @@ public class AddGUI extends JFrame implements ActionListener{
         nameField.setName("Title");
         this.addPanel.add(nameLabel);
         this.addPanel.add(nameField);
-        String name = nameField.getText();
+        //String name = nameField.getText();
 
         JLabel yearLabel = new JLabel("Enter Album Release Year:", JLabel.TRAILING);
         JTextField yearField = new JTextField();
@@ -134,7 +137,7 @@ public class AddGUI extends JFrame implements ActionListener{
         yearField.setName("Release Year");
         this.addPanel.add(yearLabel);
         this.addPanel.add(yearField);
-        String year = yearField.getText();
+        //String year = yearField.getText();
 
         JLabel genreLabel = new JLabel("Enter Album Genre:", JLabel.TRAILING);
         JTextField genreField = new JTextField();
@@ -143,7 +146,7 @@ public class AddGUI extends JFrame implements ActionListener{
         genreField.setName("Genre");
         this.addPanel.add(genreLabel);
         this.addPanel.add(genreField);
-        String genre = genreField.getText();
+        //String genre = genreField.getText();
 
         JLabel artistIDLabel = new JLabel("Enter Album Artist ID:", JLabel.TRAILING);
         JTextField artistIDField = new JTextField();
@@ -152,7 +155,7 @@ public class AddGUI extends JFrame implements ActionListener{
         artistIDField.setName("Artist ID");
         this.addPanel.add(artistIDLabel);
         this.addPanel.add(artistIDField);
-        String id = artistIDField.getText();
+        //String id = artistIDField.getText();
 
         JLabel tcountLabel = new JLabel("Enter Album Track Count:", JLabel.TRAILING);
         JTextField tcountField = new JTextField();
@@ -161,7 +164,7 @@ public class AddGUI extends JFrame implements ActionListener{
         tcountField.setName("Track Count");
         this.addPanel.add(tcountLabel);
         this.addPanel.add(tcountField);
-        String count = tcountField.getText();
+        //String count = tcountField.getText();
 
         JLabel durationLabel = new JLabel("Enter Album Total Duration:", JLabel.TRAILING);
         JTextField durationField = new JTextField();
@@ -170,7 +173,7 @@ public class AddGUI extends JFrame implements ActionListener{
         durationField.setName("Duration");
         this.addPanel.add(durationLabel);
         this.addPanel.add(durationField);
-        String dur = durationField.getText();
+        //String dur = durationField.getText();
 
         JLabel formatLabel = new JLabel("Enter Album Format:", JLabel.TRAILING);
         JTextField formatField = new JTextField();
@@ -179,15 +182,15 @@ public class AddGUI extends JFrame implements ActionListener{
         formatField.setName("Format");
         this.addPanel.add(formatLabel);
         this.addPanel.add(formatField);
-        String format = formatField.getText();
+        //String format = formatField.getText();
         int alcount = (album - 2000);
-        Album album = new Album(getID("Album"), name, genre, Integer.parseInt(year), Integer.parseInt(count), Integer.parseInt(dur), 0, Integer.parseInt(id), format, alcount);
+        //Album album = new Album(getID("Album"), name, genre, Integer.parseInt(year), Integer.parseInt(count), Integer.parseInt(dur), 0, Integer.parseInt(id), format, alcount);
 
         // Add the buttons bac.
         this.renderButtons();
         // Re-render our panel.
         this.renderGUI();
-        return album;
+        return null;
     }
 
     private RecordType renderBookForm(String table){
@@ -453,7 +456,6 @@ public class AddGUI extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        RecordType r = null;
         // Form Rendering Logic.
         if (e.getSource().equals(this.tableSelect)) {
             this.current = String.valueOf(this.tableSelect.getSelectedItem());
@@ -464,21 +466,22 @@ public class AddGUI extends JFrame implements ActionListener{
             this.current.equals(this.tables[2]) ||
             this.current.equals(this.tables[3]) ||
             this.current.equals(this.tables[4])){ 
-                r = this.renderCreatorForm(this.current);
-            }else if(this.current.equals(this.tables[6])){ 
-                r = this.renderAlbumForm(this.tables[6]);
+                System.out.println(this.current);
+                this.r = this.renderCreatorForm(this.current);
+            }else if(this.current.equals(this.tables[5])){ 
+                this.r = this.renderAlbumForm(this.tables[5]);
             }else if(this.current.equals(this.tables[7])){ 
-                r = this.renderBookForm(this.tables[7]);
+                this.r = this.renderBookForm(this.tables[7]);
             }else if(this.current.equals(this.tables[8])){ 
-                r = this.renderMovieForm(this.tables[8]);
+                this.r = this.renderMovieForm(this.tables[8]);
             }else if(this.current.equals(this.tables[9])){ 
-                r = this.renderSongForm(this.tables[9]);
+                this.r = this.renderSongForm(this.tables[9]);
             }else if(this.current.equals(this.tables[10])){ 
                 //this.renderCOLForm(this.tables[10]);
             }else if(this.current.equals(this.tables[11])){ 
                 //this.renderOLForm(this.tables[11]);
             }else if(this.current.equals(this.tables[12])){ 
-                r = this.renderPatronForm(this.tables[12]);
+                this.r = this.renderPatronForm(this.tables[12]);
             }
             // Render Base Form (haha). 
             else {
@@ -490,7 +493,7 @@ public class AddGUI extends JFrame implements ActionListener{
         }
         if(e.getSource().equals(this.submitButton)){
             // SQL Logic Here. Perhaps its own method?
-            this.executeSQL(r);
+            this.executeSQL(this.r);
         }
     }
 

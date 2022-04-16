@@ -15,8 +15,8 @@ public class Creator extends RecordType{
     @Override
     public void add(Connection conn) {
         
-        String insertStr = "INSERT INTO " + type + " VALUES " +
-        "(" + id + ", " + name + ");";
+        String insertStr = "INSERT INTO `" + type + "` VALUES " +
+        "(`" + id + "`, `" + name + "`)";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(insertStr);
